@@ -50,24 +50,11 @@ function App() {
   }
   return (
     <div className="App">
-      <Link className="menu-link" to="/">
-        tile{" "}
-      </Link>
-      <Link className="menu-link" to="/list">
-        list{" "}
-      </Link>
-
       <Routes>
         <Route
           path="/"
           element={
             <StarCardsFilter setResults={setResults} characters={results} />
-          }
-        />
-        <Route
-          path="list"
-          element={
-            <StarCardsInfo setResults={setResults} characters={results} />
           }
         />
         <Route
