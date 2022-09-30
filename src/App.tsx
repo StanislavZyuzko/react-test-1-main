@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import StarCardsFilter from "./components/StarCardsFilter";
-import StarCardsInfo from "./pages/StarCardsInfo";
 import StarCardDetails from "./pages/StarCardDetails";
 import { ICharacter } from "./interfaces";
 
@@ -36,7 +35,6 @@ function App() {
       // })
       .catch((error) => {
         setError(error.message);
-        console.log(error);
       })
       .finally(() => setIsLoaded(true));
   }, []);
