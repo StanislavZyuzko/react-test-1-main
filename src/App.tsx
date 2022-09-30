@@ -12,42 +12,33 @@ function App() {
   const [isLoaded, setIsLoaded] = useState<any>(false);
 
   useEffect(() => {
-    const getCharacters = async () => {
-      const initialCharacters = await fetch("https://swapi.dev/api/people")
-        .then((response) => {
-          return response.json();
-        })
-        .then((res) =>
-          res.results.map((elem: ICharacter) => ({ ...elem, favorites: false }))
-        )
-        // .then(() => {
-        //   throw new Error("test message!");
-        // })
-        .catch((error) => {
-          setError(error.message);
-          console.log(error);
-        })
-        .finally(() => setIsLoaded(true));
-
-      const requests = initialCharacters.map((character: ICharacter) =>
-        fetch(character.homeworld)
-      );
-
-      Promise.all(requests)
-        .then((responses) => Promise.all(responses.map((res) => res.json())))
-        .then((resArr) =>
-          initialCharacters.map((character: ICharacter, index: number) => ({
-            ...character,
-            homeworld: resArr[index].name,
+    fetch("https://swapi.dev/api/people")
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) =>
+        Promise.all(
+          res.results.map(async (elem: ICharacter) => ({
+            ...elem,
+            favorites: false,
+            homeworld: await fetch(elem.homeworld)
+              .then((result) => result.json())
+              .then((result) => result.name),
           }))
         )
-        .then((resArr) => {
-          setResults(resArr);
-          return resArr;
-        });
-    };
-
-    getCharacters();
+      )
+      .then((res) => setResults(res))
+      .then((res) => {
+        return res;
+      })
+      // .then(() => {
+      //   throw new Error("test message!");
+      // })
+      .catch((error) => {
+        setError(error.message);
+        console.log(error);
+      })
+      .finally(() => setIsLoaded(true));
   }, []);
 
   if (err) {
