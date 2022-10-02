@@ -1,36 +1,3 @@
-// state interfaces
-
-interface ListCard {
-  name: string;
-  gender: string;
-  homeworld: string;
-  mass: null | number;
-  favorites: boolean;
-}
-
-interface ICardslistState {
-  card: ListCard;
-  modal: boolean;
-}
-
-// action interfaces
-
-interface SetCardPayload {
-  name: string;
-  value: string | number;
-}
-
-interface SetCardAction {
-  type: "SET_CARD";
-  payload: SetCardPayload;
-}
-
-interface IsModalAction {
-  type: "IS_MODAL";
-}
-
-type ListAction = SetCardAction | IsModalAction;
-
 export const LIST_INITIAL = {
   card: {
     name: "",
